@@ -1,186 +1,328 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Valentine Trap 😈</title>
-<style>
-  body {
-    margin: 0;
-    height: 100vh;
-    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-    font-family: "Segoe UI", system-ui, sans-serif;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Valentine Trap – Level CRAZY 😈💘</title>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <style>
+    :root {
+      --primary: #ff3366;
+      --success: #28a745;
+      --danger: #dc3545;
+    }
 
-  .container {
-    background: white;
-    padding: 40px 30px;
-    border-radius: 20px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.25);
-    text-align: center;
-    max-width: 380px;
-    width: 90%;
-    position: relative;
-    overflow: hidden;
-  }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-  h1 {
-    font-size: 2.4rem;
-    margin: 0 0 25px;
-    color: #e63946;
-  }
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      font-family: system-ui, -apple-system, sans-serif;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+    }
 
-  .hearts {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-  }
+    .container {
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(10px);
+      padding: 2.5rem 1.8rem;
+      border-radius: 24px;
+      box-shadow: 0 15px 50px rgba(0,0,0,0.22);
+      text-align: center;
+      width: 100%;
+      max-width: 440px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.5);
+    }
 
-  .no-btn {
-    position: relative;
-    padding: 14px 32px;
-    font-size: 1.2rem;
-    margin: 12px;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: all 0.15s;
-    background: #dc3545;
-    color: white;
-    font-weight: bold;
-  }
+    h1 {
+      font-size: clamp(2rem, 7vw, 2.8rem);
+      margin-bottom: 1.8rem;
+      color: var(--primary);
+      font-weight: 800;
+      transition: all 0.4s;
+    }
 
-  .yes-btn {
-    padding: 16px 48px;
-    font-size: 1.4rem;
-    margin: 12px;
-    border: none;
-    border-radius: 50px;
-    background: #28a745;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 5px 15px rgba(40,167,69,0.4);
-  }
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      position: relative;
+      min-height: 140px;
+    }
 
-  .yes-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 8px 25px rgba(40,167,69,0.5);
-  }
-</style>
+    button {
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.22s ease;
+      touch-action: manipulation;
+      font-size: clamp(1.1rem, 4.5vw, 1.35rem);
+      padding: 0.9rem 2.4rem;
+      min-width: 140px;
+    }
+
+    .yes-btn {
+      background: var(--success);
+      color: white;
+      box-shadow: 0 6px 20px rgba(40,167,69,0.4);
+    }
+
+    .yes-btn:active { transform: scale(0.96); }
+
+    .no-btn {
+      background: var(--danger);
+      color: white;
+      position: relative;
+      box-shadow: 0 4px 14px rgba(220,53,69,0.3);
+    }
+
+    .hearts {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .ring {
+      position: absolute;
+      left: 50%;
+      top: -100px;
+      font-size: 5rem;
+      transform: translateX(-50%);
+      animation: ringDrop 2.5s ease-out forwards;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    @keyframes ringDrop {
+      0%   { top: -100px; opacity: 0; transform: translateX(-50%) rotate(0deg); }
+      20%  { opacity: 1; }
+      100% { top: 40%; opacity: 0; transform: translateX(-50%) rotate(720deg) scale(2.5); }
+    }
+
+    @keyframes float {
+      0%   { transform: translateY(110vh) rotate(0deg) scale(0.5); opacity: 0; }
+      15%  { opacity: 0.95; }
+      100% { transform: translateY(-25vh) rotate(1080deg) scale(1.2); opacity: 0; }
+    }
+
+    .heart {
+      position: absolute;
+      font-size: clamp(1.4rem, 6vw, 2.5rem);
+      animation: float linear forwards;
+      pointer-events: none;
+    }
+
+    .bank-alert {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.6s;
+    }
+
+    .bank-alert.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .alert-box {
+      background: white;
+      padding: 2.5rem;
+      border-radius: 20px;
+      text-align: center;
+      max-width: 90%;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+      animation: pop 0.5s ease-out;
+    }
+
+    @keyframes pop {
+      0% { transform: scale(0.6); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @media (max-width: 420px) {
+      button { padding: 1rem 2.8rem; font-size: 1.25rem; min-width: 48%; }
+    }
+  </style>
 </head>
 <body>
 
+<audio id="bgMusic" loop>
+  <source src="https://www.free-stock-music.com/music/alex-productions-love.mp3" type="audio/mpeg">
+  <!-- Fallback: replace with your own hosted mp3 if needed -->
+</audio>
+
 <div class="container">
   <div class="hearts" id="hearts"></div>
-  
+
   <h1 id="question">Will you be my Valentine? 💖</h1>
-  
-  <div>
+
+  <div class="buttons">
     <button class="yes-btn" onclick="sayYes()">YESSSS!!! 😍💍</button>
     <button class="no-btn" id="noBtn">No 😒</button>
+  </div>
+</div>
+
+<div class="bank-alert" id="bankAlert">
+  <div class="alert-box">
+    <h2 style="color:#28a745; font-size:2rem;">Bank Alert! 💰</h2>
+    <p style="font-size:1.4rem; margin:15px 0;">₦Love credited successfully<br>to your heart account! ❤️🔥</p>
+    <button onclick="document.getElementById('bankAlert').classList.remove('show')" style="margin-top:15px; padding:10px 30px; background:#ff3366; color:white; border:none; border-radius:50px; font-size:1.1rem; cursor:pointer;">
+      Close & Celebrate 🎉
+    </button>
   </div>
 </div>
 
 <script>
 const noBtn = document.getElementById('noBtn');
 const question = document.getElementById('question');
+const container = document.querySelector('.container');
+const heartsContainer = document.getElementById('hearts');
+const music = document.getElementById('bgMusic');
 let moveCount = 0;
 
 const messages = [
   "Are you sure?? 😳",
-  "Bro think again naaa...",
+  "Think well well 😭",
   "Last last you go gree 😂",
-  "Stop playing with my feelings 😭",
-  "You want me to cry?? 🥺",
-  "Okay... I'm calling your mum",
-  "You're hurting me ooo 😩",
-  "This is wickedness!!!",
-  "I will report you to God",
+  "You wan make I cry?? 🥺",
+  "I go call your mama 😭",
+  "This one na wickedness 😩",
+  "God dey watch you 👀",
+  "Abeg just press YES ❤️",
   "You don win... but I still love you 😭💔"
 ];
 
-noBtn.addEventListener('mouseover', chase);
-noBtn.addEventListener('click', chase);
+// Try to play music on first interaction (mobile policy)
+document.body.addEventListener('touchstart', () => {
+  music.volume = 0.25;
+  music.play().catch(() => {});
+}, { once: true });
 
-function chase() {
+function moveButton() {
   moveCount++;
-
   if (moveCount >= 8) {
-    question.innerHTML = "You don tire me... just say YES abeg 😭❤️";
+    question.innerHTML = "You don tire me 😭 just say YES abeg ❤️";
     noBtn.style.display = "none";
     return;
   }
 
-  const container = document.querySelector('.container');
-  const maxX = container.clientWidth - noBtn.offsetWidth - 60;
-  const maxY = container.clientHeight - noBtn.offsetHeight - 80;
+  const maxX = container.clientWidth - noBtn.offsetWidth - 50;
+  const maxY = container.clientHeight - noBtn.offsetHeight - 70;
 
   const newX = Math.random() * maxX;
   const newY = Math.random() * maxY;
 
   noBtn.style.position = 'absolute';
   noBtn.style.left = newX + 'px';
-  noBtn.style.top = newY + 'px';
+  noBtn.style.top  = newY + 'px';
+  noBtn.style.transform = `rotate(${Math.random()*30 - 15}deg)`;
 
   question.innerHTML = messages[moveCount-1] || messages[messages.length-1];
 }
 
+noBtn.addEventListener('mouseover', moveButton);
+noBtn.addEventListener('touchstart', e => { e.preventDefault(); moveButton(); });
+noBtn.addEventListener('click', moveButton);
+
 // Floating hearts
 function createHeart() {
   const heart = document.createElement('div');
-  heart.innerText = ['💗','💘','💖','❤️','💕'][Math.floor(Math.random()*5)];
-  heart.style.position = 'absolute';
-  heart.style.left = Math.random()*100 + 'vw';
-  heart.style.fontSize = (15 + Math.random()*30) + 'px';
-  heart.style.animation = `float ${4 + Math.random()*4}s linear`;
-  heart.style.opacity = 0.7 + Math.random()*0.3;
-  
-  document.getElementById('hearts').appendChild(heart);
-  
-  setTimeout(() => heart.remove(), 8000);
+  heart.className = 'heart';
+  heart.innerText = ['💗','💘','💖','❤️','🩷','💕','💞'][Math.floor(Math.random()*7)];
+  heart.style.left = Math.random() * 100 + '%';
+  heart.style.animationDuration = (4 + Math.random()*5) + 's';
+  heartsContainer.appendChild(heart);
+  setTimeout(() => heart.remove(), 10000);
 }
-
 setInterval(createHeart, 400);
 
-// Winner screen
+// YES – crazy celebration
 function sayYes() {
-  document.body.innerHTML = `
-    <div style="
-      height:100vh;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      align-items:center;
-      background:linear-gradient(45deg,#ff3366,#ff6b6b);
-      color:white;
-      font-size:4rem;
-      text-shadow:0 0 20px #00000080;
-      overflow:hidden;
-    ">
-      <div style="font-size:8rem; animation:beat 1.2s infinite">💖💍</div>
-      <h1 style="margin:30px 0; font-size:4.5rem">YESSSSS!!! 🫶🔥</h1>
-      <p style="font-size:2rem">You have been officially trapped 😈❤️</p>
-    </div>
-  `;
+  // Vibration (heartbeat pattern)
+  if (navigator.vibrate) {
+    navigator.vibrate([100, 50, 100, 50, 200, 100, 300]); // heartbeat feel
+  }
 
-  // beat animation
-  const style = document.createElement('style');
-  style.innerHTML = `
-    @keyframes beat {
-      0%,100% {transform:scale(1)}
-      50% {transform:scale(1.3)}
-    }
-    @keyframes float {
-      0%   {transform:translateY(100vh) rotate(0deg)}
-      100% {transform:translateY(-15vh) rotate(360deg)}
-    }
-  `;
-  document.head.appendChild(style);
+  // Confetti
+  const duration = 5 * 1000;
+  const end = Date.now() + duration;
+  (function frame() {
+    confetti({
+      particleCount: 6,
+      angle: 60,
+      spread: 55,
+      origin: { x: 0 }
+    });
+    confetti({
+      particleCount: 6,
+      angle: 120,
+      spread: 55,
+      origin: { x: 1 }
+    });
+    if (Date.now() < end) requestAnimationFrame(frame);
+  }());
+
+  // Ring drop
+  const ring = document.createElement('div');
+  ring.className = 'ring';
+  ring.innerText = '💍';
+  document.body.appendChild(ring);
+  setTimeout(() => ring.remove(), 3000);
+
+  // Fake bank alert
+  setTimeout(() => {
+    document.getElementById('bankAlert').classList.add('show');
+  }, 1200);
+
+  // Winner screen after alert (but keep alert openable)
+  setTimeout(() => {
+    document.body.innerHTML = `
+      <div style="
+        height:100vh;
+        background:linear-gradient(45deg,#ff3366,#ff6b6b,#ff9a9e);
+        color:white;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        text-align:center;
+        padding:20px;
+        animation: bgPulse 10s infinite alternate;
+      ">
+        <div style="font-size:8rem; animation:beat 1.3s infinite">💖💍🔥</div>
+        <h1 style="font-size:clamp(3rem,10vw,5.5rem); margin:25px 0; text-shadow:0 0 25px #00000060;">
+          YESSSSS!!! 🫶❤️
+        </h1>
+        <p style="font-size:clamp(1.5rem,5vw,2.2rem); max-width:90%;">
+          You are officially trapped forever 😈💘<br>
+          No escape now! 😂
+        </p>
+      </div>
+    `;
+
+    // Keep hearts & confetti going
+    setInterval(createHeart, 300);
+    const style = document.createElement('style');
+    style.innerHTML = `
+      @keyframes beat { 0%,100% {transform:scale(1)} 50% {transform:scale(1.18)} }
+      @keyframes bgPulse { 0% {background-position:0% 50%} 100% {background-position:100% 50%} }
+    `;
+    document.head.appendChild(style);
+  }, 4000);
 }
 </script>
 </body>
