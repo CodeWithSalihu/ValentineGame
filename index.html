@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Valentine Trap 😈</title>
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    font-family: "Segoe UI", system-ui, sans-serif;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .container {
+    background: white;
+    padding: 40px 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+    text-align: center;
+    max-width: 380px;
+    width: 90%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  h1 {
+    font-size: 2.4rem;
+    margin: 0 0 25px;
+    color: #e63946;
+  }
+
+  .hearts {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .no-btn {
+    position: relative;
+    padding: 14px 32px;
+    font-size: 1.2rem;
+    margin: 12px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: #dc3545;
+    color: white;
+    font-weight: bold;
+  }
+
+  .yes-btn {
+    padding: 16px 48px;
+    font-size: 1.4rem;
+    margin: 12px;
+    border: none;
+    border-radius: 50px;
+    background: #28a745;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(40,167,69,0.4);
+  }
+
+  .yes-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(40,167,69,0.5);
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="hearts" id="hearts"></div>
+  
+  <h1 id="question">Will you be my Valentine? 💖</h1>
+  
+  <div>
+    <button class="yes-btn" onclick="sayYes()">YESSSS!!! 😍💍</button>
+    <button class="no-btn" id="noBtn">No 😒</button>
+  </div>
+</div>
+
+<script>
+const noBtn = document.getElementById('noBtn');
+const question = document.getElementById('question');
+let moveCount = 0;
+
+const messages = [
+  "Are you sure?? 😳",
+  "Bro think again naaa...",
+  "Last last you go gree 😂",
+  "Stop playing with my feelings 😭",
+  "You want me to cry?? 🥺",
+  "Okay... I'm calling your mum",
+  "You're hurting me ooo 😩",
+  "This is wickedness!!!",
+  "I will report you to God",
+  "You don win... but I still love you 😭💔"
+];
+
+noBtn.addEventListener('mouseover', chase);
+noBtn.addEventListener('click', chase);
+
+function chase() {
+  moveCount++;
+
+  if (moveCount >= 8) {
+    question.innerHTML = "You don tire me... just say YES abeg 😭❤️";
+    noBtn.style.display = "none";
+    return;
+  }
+
+  const container = document.querySelector('.container');
+  const maxX = container.clientWidth - noBtn.offsetWidth - 60;
+  const maxY = container.clientHeight - noBtn.offsetHeight - 80;
+
+  const newX = Math.random() * maxX;
+  const newY = Math.random() * maxY;
+
+  noBtn.style.position = 'absolute';
+  noBtn.style.left = newX + 'px';
+  noBtn.style.top = newY + 'px';
+
+  question.innerHTML = messages[moveCount-1] || messages[messages.length-1];
+}
+
+// Floating hearts
+function createHeart() {
+  const heart = document.createElement('div');
+  heart.innerText = ['💗','💘','💖','❤️','💕'][Math.floor(Math.random()*5)];
+  heart.style.position = 'absolute';
+  heart.style.left = Math.random()*100 + 'vw';
+  heart.style.fontSize = (15 + Math.random()*30) + 'px';
+  heart.style.animation = `float ${4 + Math.random()*4}s linear`;
+  heart.style.opacity = 0.7 + Math.random()*0.3;
+  
+  document.getElementById('hearts').appendChild(heart);
+  
+  setTimeout(() => heart.remove(), 8000);
+}
+
+setInterval(createHeart, 400);
+
+// Winner screen
+function sayYes() {
+  document.body.innerHTML = `
+    <div style="
+      height:100vh;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      background:linear-gradient(45deg,#ff3366,#ff6b6b);
+      color:white;
+      font-size:4rem;
+      text-shadow:0 0 20px #00000080;
+      overflow:hidden;
+    ">
+      <div style="font-size:8rem; animation:beat 1.2s infinite">💖💍</div>
+      <h1 style="margin:30px 0; font-size:4.5rem">YESSSSS!!! 🫶🔥</h1>
+      <p style="font-size:2rem">You have been officially trapped 😈❤️</p>
+    </div>
+  `;
+
+  // beat animation
+  const style = document.createElement('style');
+  style.innerHTML = `
+    @keyframes beat {
+      0%,100% {transform:scale(1)}
+      50% {transform:scale(1.3)}
+    }
+    @keyframes float {
+      0%   {transform:translateY(100vh) rotate(0deg)}
+      100% {transform:translateY(-15vh) rotate(360deg)}
+    }
+  `;
+  document.head.appendChild(style);
+}
+</script>
+</body>
+</html>
