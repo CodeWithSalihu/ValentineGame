@@ -154,19 +154,46 @@
       100% { transform: scale(1); opacity: 1; }
     }
 
+    @keyframes beat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+
+    .restart-btn {
+      background: white;
+      color: var(--primary);
+      border: 3px solid var(--primary);
+      padding: 1rem 3rem;
+      font-size: 1.3rem;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 30px;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 25px rgba(255,51,102,0.3);
+    }
+
+    .restart-btn:hover {
+      background: var(--primary);
+      color: white;
+      transform: scale(1.05);
+    }
+
+    .restart-btn:active {
+      transform: scale(0.98);
+    }
+
     @media (max-width: 420px) {
       button { padding: 1rem 2.8rem; font-size: 1.25rem; min-width: 48%; }
     }
 
-
-
     .owner{
-  margin-top:15px;
-  font-size:0.85rem;
-  color:#666;
-  font-weight:600;
-  opacity:0.8;
-}
+      margin-top:15px;
+      font-size:0.85rem;
+      color:#666;
+      font-weight:600;
+      opacity:0.8;
+    }
 
   </style>
 </head>
@@ -226,12 +253,12 @@ const messages = [
   "You really wanna break my heart?? 💔🥺",
   "Don't do this… you know I can't survive without you 😢❤️",
   "Stop playing, I need your YES now 😈💖",
-  "Say YES or I’ll never forgive you 😭🔥",
+  "Say YES or I'll never forgive you 😭🔥",
   "You feel that? My heart is screaming for you 💘💓",
   "Just one YES… make me yours forever 😍💍",
   "I dare you to try saying NO 😏❤️",
-  "I’m not kidding… press YES now, my love 😳💖",
-  "You know you can’t resist me… just say YES 😈💘"
+  "I'm not kidding… press YES now, my love 😳💖",
+  "You know you can't resist me… just say YES 😈💘"
 ];
 
 
@@ -336,14 +363,16 @@ function sayYes() {
       <h1 style="font-size:clamp(3rem,10vw,5rem); margin:25px 0;">
         YESSSSS!!! 🫶❤️
       </h1>
-<p>
-You are officially trapped forever 😈💘<br>
-<span style="font-size:1rem; opacity:0.9;">
-No escaping now… you belong to me ❤️🔥<br>
-Game created by Salihu Hassan 😏💖
-</span>
-</p>
-
+      <p>
+        You are officially trapped forever 😈💘<br>
+        <span style="font-size:1rem; opacity:0.9;">
+          No escaping now… you belong to me ❤️🔥<br>
+          Game created by Salihu Hassan 😏💖
+        </span>
+      </p>
+      <button class="restart-btn" onclick="location.reload()">
+        Start Again 🔄
+      </button>
     </div>
     `;
 
